@@ -16,6 +16,38 @@
     dokuwiki-mode-syntax-table)
   "Syntax table for dokuwiki-mode")
 
+
+(defface dokuwiki-face-heading1 '((default (:height 200))) "Level 1 Heading")
+(defconst dokuwiki-mode-font-lock-keywords-heading1 '(("^[[:space:]]?\\(=\\{6\\}\\)\\(.*?\\)\\(=\\{6\\}\\)"
+                                                       (1 'font-lock-keyword-face)
+                                                       (2 'dokuwiki-face-heading1)
+                                                       (3 'font-lock-keyword-face))))
+
+(defface dokuwiki-face-heading2 '((default (:height 180))) "Level 2 Heading")
+(defconst dokuwiki-mode-font-lock-keywords-heading2 '(("^[[:space:]]?\\(=\\{5\\}\\)\\(.*?\\)\\(=\\{5\\}\\)"
+                                                       (1 'font-lock-keyword-face)
+                                                       (2 'dokuwiki-face-heading2)
+                                                       (3 'font-lock-keyword-face))))
+
+(defface dokuwiki-face-heading3 '((default (:height 150))) "Level 3 Heading")
+(defconst dokuwiki-mode-font-lock-keywords-heading3 '(("^[[:space:]]?\\(=\\{4\\}\\)\\(.*?\\)\\(=\\{4\\}\\)"
+                                                       (1 'font-lock-keyword-face)
+                                                       (2 'dokuwiki-face-heading3)
+                                                       (3 'font-lock-keyword-face))))
+
+(defface dokuwiki-face-heading4 '((default (:weight ultra-bold :height 130))) "Level 4 Heading")
+(defconst dokuwiki-mode-font-lock-keywords-heading4 '(("^[[:space:]]?\\(=\\{3\\}\\)\\(.*?\\)\\(=\\{3\\}\\)"
+                                                       (1 'font-lock-keyword-face)
+                                                       (2 'dokuwiki-face-heading4)
+                                                       (3 'font-lock-keyword-face))))
+
+(defface dokuwiki-face-heading5 '((default (:weight extra-bold))) "Level 5 Heading")
+(defconst dokuwiki-mode-font-lock-keywords-heading5 '(("^[[:space:]]?\\(=\\{2\\}\\)\\(.*?\\)\\(=\\{2\\}\\)"
+                                                       (1 'font-lock-keyword-face)
+                                                       (2 'dokuwiki-face-heading5)
+                                                       (3 'font-lock-keyword-face))))
+
+
 (defconst dokuwiki-mode-font-lock-keywords-named-link '(("\\(\\[\\[\\)\\([^]]+\\)\\(|{?{?\\)\\(.*?\\)\\(}?}?\\]\\]\\)"
                                                    (1 'font-lock-keyword-face)
                                                    (2 'font-lock-string-face)
@@ -102,7 +134,12 @@
                                                              font-lock-constant-face)))
 
 
-(defvar dokuwiki-mode-font-lock-keywords (append 
+(defvar dokuwiki-mode-font-lock-keywords (append
+                                          dokuwiki-mode-font-lock-keywords-heading1
+                                          dokuwiki-mode-font-lock-keywords-heading2
+                                          dokuwiki-mode-font-lock-keywords-heading3
+                                          dokuwiki-mode-font-lock-keywords-heading4
+                                          dokuwiki-mode-font-lock-keywords-heading5
                                           dokuwiki-mode-font-lock-keywords-named-link
                                           dokuwiki-mode-font-lock-keywords-image-link
                                           dokuwiki-mode-font-lock-keywords-link
