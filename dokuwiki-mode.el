@@ -17,6 +17,45 @@
   "Syntax table for dokuwiki-mode")
 
 
+(defconst dokuwiki-mode-font-lock-keywords-nowiki-tag '(("\\(<nowiki>\\)\\(\\([\n]\\|.\\)+?\\)\\(</nowiki>\\)"
+                                                         (1 'font-lock-keyword-face)
+                                                         (2 'font-lock-preprocessor-face)
+                                                         (3 'font-lock-preprocessor-face)
+                                                         (4 'font-lock-keyword-face))))
+
+(defconst dokuwiki-mode-font-lock-keywords-nowiki-percent '(("\\(%%\\)\\(\\([\n]\\|.\\)+?\\)\\(%%\\)"
+                                                             (1 'font-lock-keyword-face)
+                                                             (2 'font-lock-preprocessor-face)
+                                                             (3 'font-lock-preprocessor-face)
+                                                             (4 'font-lock-keyword-face))))
+
+
+(defconst dokuwiki-mode-font-lock-keywords-code-tag '(("\\(<code.*?>\\)\\(\\([\n]\\|.\\)+?\\)\\(</code>\\)"
+                                                       (1 'font-lock-keyword-face)
+                                                       (2 'font-lock-preprocessor-face)
+                                                       (3 'font-lock-preprocessor-face)
+                                                       (4 'font-lock-keyword-face))))
+
+(defconst dokuwiki-mode-font-lock-keywords-file-tag '(("\\(<file.*?>\\)\\(\\([\n]\\|.\\)+?\\)\\(</file>\\)"
+                                                       (1 'font-lock-keyword-face)
+                                                       (2 'font-lock-preprocessor-face)
+                                                       (3 'font-lock-preprocessor-face)
+                                                       (4 'font-lock-keyword-face))))
+
+(defconst dokuwiki-mode-font-lock-keywords-html-tag '(("\\(<html.*?>\\)\\(\\([\n]\\|.\\)+?\\)\\(</html>\\)"
+                                                       (1 'font-lock-keyword-face)
+                                                       (2 'font-lock-preprocessor-face)
+                                                       (3 'font-lock-preprocessor-face)
+                                                       (4 'font-lock-keyword-face))))
+
+(defconst dokuwiki-mode-font-lock-keywords-php-tag '(("\\(<php.*?>\\)\\(\\([\n]\\|.\\)+?\\)\\(</php>\\)"
+                                                       (1 'font-lock-keyword-face)
+                                                       (2 'font-lock-preprocessor-face)
+                                                       (3 'font-lock-preprocessor-face)
+                                                       (4 'font-lock-keyword-face))))
+
+(defconst dokuwiki-mode-font-lock-keywords-code-ident (list (cons "^  [[:space:]]*.*$" font-lock-preprocessor-face)))
+
 (defface dokuwiki-face-heading1 '((default (:height 200))) "Level 1 Heading")
 (defconst dokuwiki-mode-font-lock-keywords-heading1 '(("^[[:space:]]?\\(=\\{6\\}\\)\\(.*?\\)\\(=\\{6\\}\\)"
                                                        (1 'font-lock-keyword-face)
@@ -135,6 +174,13 @@
 
 
 (defvar dokuwiki-mode-font-lock-keywords (append
+                                          dokuwiki-mode-font-lock-keywords-nowiki-tag
+                                          dokuwiki-mode-font-lock-keywords-nowiki-percent
+                                          dokuwiki-mode-font-lock-keywords-code-tag
+                                          dokuwiki-mode-font-lock-keywords-file-tag
+                                          dokuwiki-mode-font-lock-keywords-php-tag
+                                          dokuwiki-mode-font-lock-keywords-html-tag
+                                          dokuwiki-mode-font-lock-keywords-code-ident
                                           dokuwiki-mode-font-lock-keywords-heading1
                                           dokuwiki-mode-font-lock-keywords-heading2
                                           dokuwiki-mode-font-lock-keywords-heading3
