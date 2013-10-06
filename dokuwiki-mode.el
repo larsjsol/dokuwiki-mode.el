@@ -156,6 +156,84 @@
                                                                             "DELETEME") nil)
                                                               font-lock-constant-face)))
 
+(defconst dokuwiki-mode-font-lock-keywords-entity (list (cons (regexp-opt '("<->"
+                                                                            "->"
+                                                                            "<-"
+                                                                            "<=>"
+                                                                            "=>"
+                                                                            "<="
+                                                                            ">>"
+                                                                            "<<"
+                                                                            "---"
+                                                                            "--"
+                                                                            "(c)"
+                                                                            "(tm)"
+                                                                            "(r)"
+                                                                            "...") nil)
+                                                              font-lock-constant-face)))
+
+(defconst dokuwiki-mode-font-lock-abbreviation (list (cons (regexp-opt '("ACL"
+                                                                        "AFAICS"
+                                                                        "AFAIK"
+                                                                        "AFAIR"
+                                                                        "API"
+                                                                        "ASAP"
+                                                                        "ASCII"
+                                                                        "BTW"
+                                                                        "CMS"
+                                                                        "CSS"
+                                                                        "DNS"
+                                                                        "EOF"
+                                                                        "EOL"
+                                                                        "EOM"
+                                                                        "EOT"
+                                                                        "FAQ"
+                                                                        "FTP"
+                                                                        "FOSS"
+                                                                        "FLOSS"
+                                                                        "FUD"
+                                                                        "GB"
+                                                                        "GHz"
+                                                                        "GPL"
+                                                                        "GUI"
+                                                                        "HTML"
+                                                                        "IANAL"
+                                                                        "IE"
+                                                                        "IIRC"
+                                                                        "IMHO"
+                                                                        "IMO"
+                                                                        "IOW"
+                                                                        "IRC"
+                                                                        "IRL"
+                                                                        "KISS"
+                                                                        "LAN"
+                                                                        "LGPL"
+                                                                        "LOL"
+                                                                        "MathML"
+                                                                        "MB"
+                                                                        "MHz"
+                                                                        "MSIE"
+                                                                        "OMG"
+                                                                        "OS"
+                                                                        "OSS"
+                                                                        "OTOH"
+                                                                        "PITA"
+                                                                        "RFC"
+                                                                        "ROTFL"
+                                                                        "RTFM"
+                                                                        "spec "
+                                                                        "TIA"
+                                                                        "TL;DR"
+                                                                        "TOC"
+                                                                        "URI"
+                                                                        "URL"
+                                                                        "W3C"
+                                                                        "WTF?"
+                                                                        "WYSIWYG"
+                                                                        "YMMV") nil)
+                                                          font-lock-constant-face)))
+
+
 (defconst dokuwiki-mode-font-lock-keywords-macro (list (cons (regexp-opt '("~~NOTOC~~"
                                                                            "~~NOCACHE~~") nil)
                                                              font-lock-constant-face)))
@@ -195,9 +273,11 @@
                                           dokuwiki-mode-font-lock-keywords-underlined
                                           dokuwiki-mode-font-lock-keywords-strike-through
                                           dokuwiki-mode-font-lock-keywords-line
-                                          dokuwiki-mode-font-lock-keywords-smiley
-                                          dokuwiki-mode-font-lock-keywords-macro
                                           dokuwiki-mode-font-lock-keywords-quote
+                                          dokuwiki-mode-font-lock-keywords-smiley
+                                          dokuwiki-mode-font-lock-keywords-entity
+                                          dokuwiki-mode-font-lock-abbreviation
+                                          dokuwiki-mode-font-lock-keywords-macro
                                           dokuwiki-mode-font-lock-keywords-other
                                           )
   "Syntax highlighting expressions for dokuwiki-mode")
