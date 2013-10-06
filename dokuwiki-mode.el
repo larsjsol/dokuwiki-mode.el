@@ -133,17 +133,6 @@
                                                    (2 'dokuwiki-face-strike-through)
                                                    (3 'font-lock-keyword-face))))
 
-
-(defconst dokuwiki-mode-font-lock-keywords-other (list (cons (regexp-opt '(
-                                                                           "<sub>" "</sub>"
-                                                                           "<sup>" "</sup>"
-                                                                           "((" "))"
-                                                                           "''"
-                                                                           " * "
-                                                                           " - "
-                                                                           ) nil)
-                                                             font-lock-keyword-face)))
-
 (defconst dokuwiki-mode-font-lock-keywords-line (list (cons "----+" font-lock-keyword-face)))
 
 (defconst dokuwiki-mode-font-lock-keywords-smiley (list (cons (regexp-opt '("8-)"
@@ -172,10 +161,22 @@
                                                                            "~~NOCACHE~~") nil)
                                                              font-lock-constant-face)))
 
+(defconst dokuwiki-mode-font-lock-keywords-quote (list (cons "^>+" font-lock-keyword-face)))
+
+(defconst dokuwiki-mode-font-lock-keywords-other (list (cons (regexp-opt '(
+                                                                           "<sub>" "</sub>"
+                                                                           "<sup>" "</sup>"
+                                                                           "((" "))"
+                                                                           "''"
+                                                                           " * "
+                                                                           " - "
+                                                                           "|" "^"
+                                                                           ) nil)
+                                                             font-lock-keyword-face)))
 
 (defvar dokuwiki-mode-font-lock-keywords (append
-                                          dokuwiki-mode-font-lock-keywords-nowiki-tag
                                           dokuwiki-mode-font-lock-keywords-nowiki-percent
+                                          dokuwiki-mode-font-lock-keywords-nowiki-tag
                                           dokuwiki-mode-font-lock-keywords-code-tag
                                           dokuwiki-mode-font-lock-keywords-file-tag
                                           dokuwiki-mode-font-lock-keywords-php-tag
@@ -194,10 +195,11 @@
                                           dokuwiki-mode-font-lock-keywords-italic
                                           dokuwiki-mode-font-lock-keywords-underlined
                                           dokuwiki-mode-font-lock-keywords-strike-through
-                                          dokuwiki-mode-font-lock-keywords-other
                                           dokuwiki-mode-font-lock-keywords-line
                                           dokuwiki-mode-font-lock-keywords-smiley
                                           dokuwiki-mode-font-lock-keywords-macro
+                                          dokuwiki-mode-font-lock-keywords-quote
+                                          dokuwiki-mode-font-lock-keywords-other
                                           )
   "Syntax highlighting expressions for dokuwiki-mode")
 
