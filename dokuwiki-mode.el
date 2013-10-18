@@ -108,6 +108,12 @@
 (defconst dokuwiki-mode-font-lock-keywords-bare-link (list (cons "\\(http://\\)?\w+\\.[[:alpha:]]+\\.[^[:space:]]+"
                                                              font-lock-string-face)))
 
+(defconst dokuwiki-mode-font-lock-keywords-email-link '(("\\(<\\)\\(.*\\)\\(>\\)"
+                                                   (1 'font-lock-keyword-face)
+                                                   (2 'font-lock-string-face)
+                                                   (3 'font-lock-keyword-face))))
+                                                         
+
 (defface dokuwiki-face-bold '((default (:bold t))) "Bold")
 (defconst dokuwiki-mode-font-lock-keywords-bold '(("\\([*][*]\\)\\(.*?\\)\\([*][*]\\)" 
                                                    (1 'font-lock-keyword-face)
