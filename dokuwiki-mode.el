@@ -138,7 +138,7 @@
                                                    (2 'dokuwiki-face-strike-through)
                                                    (3 'font-lock-keyword-face))))
 
-(defconst dokuwiki-mode-font-lock-keywords-line (list (cons "----+" font-lock-keyword-face)))
+(defconst dokuwiki-mode-font-lock-horizontal-line (list (cons "----+" font-lock-keyword-face)))
 
 (defconst dokuwiki-mode-font-lock-constants
   (let ((smilies '("8-)" "8-O" ":-(" ":-)" "=)" ":-/" ":-\\" ":-?" ":-D" ":-P" ":-O" 
@@ -157,7 +157,7 @@
 
 
 
-(defconst dokuwiki-mode-font-lock-keywords-quote (list (cons "^>+" font-lock-keyword-face)))
+(defconst dokuwiki-mode-font-lock-quote (list (cons "^>+" font-lock-keyword-face)))
 
 (defconst dokuwiki-mode-font-lock-keywords-other (list (cons (regexp-opt '(
                                                                            "<sub>" "</sub>"
@@ -170,32 +170,33 @@
                                                                            ) nil)
                                                              font-lock-keyword-face)))
 
-(defvar dokuwiki-mode-font-lock-keywords (append
-                                          dokuwiki-mode-font-lock-keywords-code-ident
-                                          dokuwiki-mode-font-lock-keywords-nowiki-percent
-                                          dokuwiki-mode-font-lock-keywords-nowiki-tag
-                                          dokuwiki-mode-font-lock-keywords-code-tag
-                                          dokuwiki-mode-font-lock-keywords-file-tag
-                                          dokuwiki-mode-font-lock-keywords-php-tag
-                                          dokuwiki-mode-font-lock-keywords-html-tag
-                                          dokuwiki-mode-font-lock-keywords-heading1
-                                          dokuwiki-mode-font-lock-keywords-heading2
-                                          dokuwiki-mode-font-lock-keywords-heading3
-                                          dokuwiki-mode-font-lock-keywords-heading4
-                                          dokuwiki-mode-font-lock-keywords-heading5
-                                          dokuwiki-mode-font-lock-keywords-named-link
-                                          dokuwiki-mode-font-lock-keywords-image-link
-                                          dokuwiki-mode-font-lock-keywords-link
-                                          dokuwiki-mode-font-lock-keywords-bare-link
-                                          dokuwiki-mode-font-lock-keywords-bold
-                                          dokuwiki-mode-font-lock-keywords-italic
-                                          dokuwiki-mode-font-lock-keywords-underlined
-                                          dokuwiki-mode-font-lock-keywords-strike-through
-                                          dokuwiki-mode-font-lock-keywords-line
-                                          dokuwiki-mode-font-lock-keywords-quote
-                                          dokuwiki-mode-font-lock-constants
-                                          dokuwiki-mode-font-lock-keywords-other
-                                          )
+(defvar dokuwiki-mode-font-lock (append
+                                 dokuwiki-mode-font-lock-keywords-code-ident
+                                 dokuwiki-mode-font-lock-keywords-nowiki-percent
+                                 dokuwiki-mode-font-lock-keywords-nowiki-tag
+                                 dokuwiki-mode-font-lock-keywords-code-tag
+                                 dokuwiki-mode-font-lock-keywords-file-tag
+                                 dokuwiki-mode-font-lock-keywords-php-tag
+                                 dokuwiki-mode-font-lock-keywords-html-tag
+                                 dokuwiki-mode-font-lock-keywords-heading1
+                                 dokuwiki-mode-font-lock-keywords-heading2
+                                 dokuwiki-mode-font-lock-keywords-heading3
+                                 dokuwiki-mode-font-lock-keywords-heading4
+                                 dokuwiki-mode-font-lock-keywords-heading5
+                                 dokuwiki-mode-font-lock-horizontal-line
+                                 dokuwiki-mode-font-lock-quote
+                                 dokuwiki-mode-font-lock-constants
+                                 dokuwiki-mode-font-lock-keywords-named-link
+                                 dokuwiki-mode-font-lock-keywords-image-link
+                                 dokuwiki-mode-font-lock-keywords-link
+                                 dokuwiki-mode-font-lock-keywords-bare-link
+                                 dokuwiki-mode-font-lock-keywords-email-link
+                                 dokuwiki-mode-font-lock-keywords-bold
+                                 dokuwiki-mode-font-lock-keywords-italic
+                                 dokuwiki-mode-font-lock-keywords-underlined
+                                 dokuwiki-mode-font-lock-keywords-strike-through
+                                 dokuwiki-mode-font-lock-keywords-other
+                                 )
   "Syntax highlighting expressions for dokuwiki-mode")
 
 (defun dokuwiki-ident-line ()
@@ -210,7 +211,7 @@
   (kill-all-local-variables)
   (use-local-map dokuwiki-mode-map)
   (set-syntax-table dokuwiki-mode-syntax-table)
-  (set (make-local-variable 'font-lock-defaults) '(dokuwiki-mode-font-lock-keywords))
+  (set (make-local-variable 'font-lock-defaults) '(dokuwiki-mode-font-lock))
   (set (make-local-variable 'ident-line-function) 'dokuwiki-ident-line)
   (setq major-mode 'dokuwiki-mode)
   (setq mode-name "DokuWiki")
