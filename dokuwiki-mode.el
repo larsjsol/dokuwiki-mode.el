@@ -114,7 +114,7 @@
                                                    (2 'dokuwiki-face-bold)
                                                    (3 'font-lock-keyword-face))))
 
-(defface dokuwiki-face-italic '((default (:italic t :slant italic))) "Italic")
+(defface dokuwiki-face-italic '((default (:slant italic))) "Italic")
 (defconst dokuwiki-mode-font-lock-keywords-italic '(("\\(//\\)\\(.*?\\)\\(//\\)"
                                                    (1 'font-lock-keyword-face)
                                                    (2 'dokuwiki-face-italic)
