@@ -16,44 +16,22 @@
     dokuwiki-mode-syntax-table)
   "Syntax table for dokuwiki-mode")
 
-(defconst dokuwiki-mode-font-lock-keywords-nowiki-tag '(("\\(<nowiki>\\)\\(\\([\n]\\|.\\)+?\\)\\(</nowiki>\\)"
-                                                         (1 'font-lock-keyword-face)
-                                                         (2 'font-lock-preprocessor-face)
-                                                         (3 'font-lock-preprocessor-face)
-                                                         (4 'font-lock-keyword-face))))
 
-(defconst dokuwiki-mode-font-lock-keywords-nowiki-percent '(("\\(%%\\)\\(\\([\n]\\|.\\)+?\\)\\(%%\\)"
-                                                             (1 'font-lock-keyword-face)
-                                                             (2 'font-lock-preprocessor-face)
-                                                             (3 'font-lock-preprocessor-face)
-                                                             (4 'font-lock-keyword-face))))
-
-
-(defconst dokuwiki-mode-font-lock-keywords-code-tag '(("\\(<code.*?>\\)\\(\\([\n]\\|.\\)+?\\)\\(</code>\\)"
-                                                       (1 'font-lock-keyword-face)
-                                                       (2 'font-lock-preprocessor-face)
-                                                       (3 'font-lock-preprocessor-face)
-                                                       (4 'font-lock-keyword-face))))
-
-(defconst dokuwiki-mode-font-lock-keywords-file-tag '(("\\(<file.*?>\\)\\(\\([\n]\\|.\\)+?\\)\\(</file>\\)"
-                                                       (1 'font-lock-keyword-face)
-                                                       (2 'font-lock-preprocessor-face)
-                                                       (3 'font-lock-preprocessor-face)
-                                                       (4 'font-lock-keyword-face))))
-
-(defconst dokuwiki-mode-font-lock-keywords-html-tag '(("\\(<html.*?>\\)\\(\\([\n]\\|.\\)+?\\)\\(</html>\\)"
-                                                       (1 'font-lock-keyword-face)
-                                                       (2 'font-lock-preprocessor-face)
-                                                       (3 'font-lock-preprocessor-face)
-                                                       (4 'font-lock-keyword-face))))
-
-(defconst dokuwiki-mode-font-lock-keywords-php-tag '(("\\(<php.*?>\\)\\(\\([\n]\\|.\\)+?\\)\\(</php>\\)"
-                                                       (1 'font-lock-keyword-face)
-                                                       (2 'font-lock-preprocessor-face)
-                                                       (3 'font-lock-preprocessor-face)
-                                                       (4 'font-lock-keyword-face))))
-
-(defconst dokuwiki-mode-font-lock-keywords-code-ident (list (cons "^ +[^* -].*$" font-lock-preprocessor-face)))
+(defconst dokuwiki-mode-font-lock-verbatim
+  (let (
+        (ident "\\(^ +[^* -].*$\\)")
+        (percent "\\(%%.*?%%\\)")
+        (nowiki "\\(<nowiki>\\(\n\\|.\\)+?</nowiki>\\)")       
+        (code "\\(<code.*?>\\(\n\\|.\\)+?</code>\\)")
+        (file "\\(<file.*?>\\(\n\\|.\\)+?</file>\\)")
+        (php "\\(<php>\\(\n\\|.\\)+?</php>\\)")
+        (html "\\(<html>\\(\n\\|.\\)+?</html>\\)")
+        (cphp "\\(<PHP>\\(\n\\|.\\)+?</PHP>\\)")
+        (chtml "\\(<HTML>\\(\n\\|.\\)+?</HTML>\\)")
+        )
+    (list (cons (mapconcat 'identity (list ident percent nowiki code file 
+                                           php html cphp chtml) "\\|") 
+                font-lock-preprocessor-face))))
 
 (defface dokuwiki-face-heading1 '((default (:height 200))) "Level 1 Heading")
 (defconst dokuwiki-mode-font-lock-keywords-heading1 '(("^[[:space:]]?\\(=\\{6\\}\\)\\(.*?\\)\\(=\\{6\\}\\)"
@@ -108,7 +86,7 @@
 (defconst dokuwiki-mode-font-lock-keywords-bare-link (list (cons "\\(http://\\)?\w+\\.[[:alpha:]]+\\.[^[:space:]]+"
                                                              font-lock-string-face)))
 
-(defconst dokuwiki-mode-font-lock-keywords-email-link '(("\\(<\\)\\(.*\\)\\(>\\)"
+(defconst dokuwiki-mode-font-lock-keywords-email-link '(("\\(<\\)\\(.+@.+\\)\\(>\\)"
                                                    (1 'font-lock-keyword-face)
                                                    (2 'font-lock-string-face)
                                                    (3 'font-lock-keyword-face))))
@@ -171,13 +149,7 @@
                                                              font-lock-keyword-face)))
 
 (defvar dokuwiki-mode-font-lock (append
-                                 dokuwiki-mode-font-lock-keywords-code-ident
-                                 dokuwiki-mode-font-lock-keywords-nowiki-percent
-                                 dokuwiki-mode-font-lock-keywords-nowiki-tag
-                                 dokuwiki-mode-font-lock-keywords-code-tag
-                                 dokuwiki-mode-font-lock-keywords-file-tag
-                                 dokuwiki-mode-font-lock-keywords-php-tag
-                                 dokuwiki-mode-font-lock-keywords-html-tag
+                                 dokuwiki-mode-font-lock-verbatim
                                  dokuwiki-mode-font-lock-keywords-heading1
                                  dokuwiki-mode-font-lock-keywords-heading2
                                  dokuwiki-mode-font-lock-keywords-heading3
@@ -204,18 +176,38 @@
   (interactive)
   (beginning-of-line))
 
-(add-to-list 'auto-mode-alist '("\\.dokuwiki\\'" . dokuwiki-mode))
 
-(defun dokuwiki-mode ()
+;; taken from http://stackoverflow.com/a/15239704
+(defun test-font-lock-extend-region ()
+  "Extend the search region to include an entire block of text."
+  ;; Avoid compiler warnings about these global variables from font-lock.el.
+  ;; See the documentation for variable `font-lock-extend-region-functions'.
+  (eval-when-compile (defvar font-lock-beg) (defvar font-lock-end))
+  (save-excursion
+    (goto-char font-lock-beg)
+    (let ((found (or (re-search-backward "\n\n" nil t) (point-min))))
+      (goto-char font-lock-end)
+      (when (re-search-forward "\n\n" nil t)
+        (beginning-of-line)
+        (setq font-lock-end (point)))
+      (setq font-lock-beg found))))
+
+
+(define-derived-mode dokuwiki-mode fundamental-mode "DokuWiki"
   (interactive)
   (kill-all-local-variables)
   (use-local-map dokuwiki-mode-map)
   (set-syntax-table dokuwiki-mode-syntax-table)
-  (set (make-local-variable 'font-lock-defaults) '(dokuwiki-mode-font-lock))
+  (set (make-local-variable 'font-lock-multiline) t)
+  (set (make-local-variable 'font-lock-defaults) '(dokuwiki-mode-font-lock t))
   (set (make-local-variable 'ident-line-function) 'dokuwiki-ident-line)
   (setq major-mode 'dokuwiki-mode)
-  (setq mode-name "DokuWiki")
-  (run-hooks 'dokuwiki-mode-hook))
+  (run-hooks 'dokuwiki-mode-hook)
+  (add-hook 'font-lock-extend-region-functions
+            'test-font-lock-extend-region)
+  )
 
+
+(add-to-list 'auto-mode-alist '("\\.dokuwiki\\'" . dokuwiki-mode))
 (provide 'dokuwiki-mode)
   
