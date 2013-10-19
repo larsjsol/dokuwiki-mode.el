@@ -148,6 +148,10 @@
                                                                            ) nil)
                                                              font-lock-keyword-face)))
 
+(defface dokuwiki-face-linebreak '((default (:foreground "red1" :weight bold))) "Forced line break")
+(defconst dokuwiki-font-lock-linebreak '(("[\\]\\{2\\}$" 
+                                          (0 'dokuwiki-face-linebreak))))
+
 (defvar dokuwiki-mode-font-lock (append
                                  dokuwiki-mode-font-lock-verbatim
                                  dokuwiki-mode-font-lock-keywords-heading1
@@ -168,6 +172,7 @@
                                  dokuwiki-mode-font-lock-keywords-underlined
                                  dokuwiki-mode-font-lock-keywords-strike-through
                                  dokuwiki-mode-font-lock-keywords-other
+                                 dokuwiki-font-lock-linebreak
                                  )
   "Syntax highlighting expressions for dokuwiki-mode")
 
