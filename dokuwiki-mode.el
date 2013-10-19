@@ -130,7 +130,7 @@
                  "OMG" "OS" "OSS" "OTOH" "PITA" "RFC" "ROTFL" "RTFM" "spec " "TIA" 
                  "TL;DR" "TOC" "URI" "URL" "W3C" "WTF?" "WYSIWYG" "YMMV"))
         (macros '("~~NOTOC~~" "~~NOCACHE~~")))
-    (list (cons (regexp-opt (append smilies entities abbrs) nil) font-lock-constant-face)))
+    (list (cons (regexp-opt (append smilies entities abbrs macros) nil) font-lock-constant-face)))
   "DokuWiki 'constants'")
 
 
